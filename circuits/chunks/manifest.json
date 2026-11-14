@@ -1,0 +1,16 @@
+{
+  "wasm": {
+    "parts": 22,
+    "size": 1755820,
+    "sha1": "e263f4907d628533334a488689cd9f7d7c64c526",
+    "chunkSize": 80000,
+    "prefix": "gatekeeper.wasm."
+  },
+  "zkey": {
+    "parts": 4,
+    "size": 309750,
+    "sha1": "f79b3e6f2bf82c8752d0792d84b157d0f1f835c3",
+    "chunkSize": 80000,
+    "prefix": "gatekeeper_final.zkey."
+  }
+}

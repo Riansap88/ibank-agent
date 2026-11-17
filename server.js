@@ -5,6 +5,7 @@
 
 const http = require('http');
 const { handleAgent, handleHealth } = require('./lib/handler');
+const inngestHandler = require('./api/inngest');
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
@@ -33,6 +34,10 @@ const server = http.createServer(async (req, res) => {
       res.end(result.body);
       return;
     }
+    if (url.pathname === '/api/inngest') {
+      inngestHandler(req, res);
+      return;
+    }
     res.writeHead(404, { 'content-type': 'application/json' });
     res.end(JSON.stringify({ error: 'not_found' }));
   } catch (err) {
@@ -46,5 +51,5 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`ibank-agent listening on http://localhost:${PORT} (POST /api/agent, GET /health)`);
+  console.log(`ibank-agent listening on http://localhost:${PORT} (POST /api/agent, GET /health, /api/inngest)`);
 });

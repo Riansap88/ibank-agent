@@ -4,6 +4,7 @@
 'use strict';
 
 const { handleAgent } = require('../lib/handler');
+const { waitUntil } = require('@vercel/functions');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -14,7 +15,9 @@ module.exports = async (req, res) => {
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);
   const rawBody = Buffer.concat(chunks);
-  const result = await handleAgent(rawBody, req.headers || {});
+  // waitUntil keeps the function alive after the response so the background
+  // Kurier submission (scheduled inside handleAgent) still runs.
+  const result = await handleAgent(rawBody, req.headers || {}, { waitUntil });
   res.status(result.status);
   for (const [key, value] of Object.entries(result.headers)) res.setHeader(key, value);
   res.send(result.body);
